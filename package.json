@@ -1,0 +1,12 @@
+{
+  "name": "front-controller",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "~4.0.0",
+    "http-proxy": "^1.8.1"
+  }
+}
