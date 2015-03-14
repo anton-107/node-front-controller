@@ -6,14 +6,22 @@ var proxy = httpProxy.createProxyServer({});
 
 var app = express();
 
-console.log('FC: env keys', Object.keys(process.env));
-
 app
-    .route('/*')
+    .route('/')
     .all(function (req, res, next) {
              proxy.web(req,
                        res,
-                       {target: 'http://' + process.env.API_1_PORT_3000_TCP_ADDR + ':' + process.env.API_1_PORT_3000_TCP_PORT});
+                       {target: 'http://' + process.env.REDISAPI_1_PORT_3000_TCP_ADDR + ':' + process.env.REDISAPI_1_PORT_3000_TCP_PORT});
+         });
+app
+    .route('/api*')
+    .all(function (req, res, next) {
+             // string /api* part from the url:
+             req.url = req.path = String(req.path).replace(/^\/api/, '');
+
+             proxy.web(req,
+                       res,
+                       {target: 'http://' + process.env.MONGOAPI_1_PORT_3000_TCP_ADDR + ':' + process.env.MONGOAPI_1_PORT_3000_TCP_PORT});
          });
 
 proxy.on('proxyReq', function(proxyReq, req, res, options) {
