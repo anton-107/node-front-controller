@@ -11,17 +11,17 @@ app
     .all(function (req, res, next) {
              proxy.web(req,
                        res,
-                       {target: 'http://' + process.env.REDISAPI_1_PORT_3000_TCP_ADDR + ':' + process.env.REDISAPI_1_PORT_3000_TCP_PORT});
+                       {target: });
          });
 app
     .route('/api*')
     .all(function (req, res, next) {
-             // string /api* part from the url:
+             // strip /api* part from the url:
              req.url = req.path = String(req.path).replace(/^\/api/, '');
 
              proxy.web(req,
                        res,
-                       {target: 'http://' + process.env.MONGOAPI_1_PORT_3000_TCP_ADDR + ':' + process.env.MONGOAPI_1_PORT_3000_TCP_PORT});
+                       {target: });
          });
 
 proxy.on('proxyReq', function(proxyReq, req, res, options) {
